@@ -41,6 +41,8 @@ background_color = ("#ded9e0", "#121212")
 
 # Define font for the ABCs
 ABCs_font = ("Roboto", 50)
+# Define font for the descriptions
+descriptions_font = ("Roboto", 15)
     
 # Create the GUI window
 window = ctk.CTk()
@@ -65,7 +67,7 @@ renaissance_dataset = os.listdir(input_dir_renaissance)
 # Define function which displays images from datasets in a format 5 images/columns per row
 def show_dataset_images(dataset, input_dir, frame):
     # Define the initial cell
-    row = 0
+    row = 1
     column = 0
     # For every image in a dataset to visualize
     for file in dataset:
@@ -209,8 +211,8 @@ def goodbye_page():
     # Create goodbye label
     goodbye_label = ctk.CTkLabel(goodbye_page_frame,
                                  text="That's it! Now you know the ABCs of machine learning. Stay curious and explore more!"
-                                      "\nIf you wish to repeat this process, click on 'Restart'.",
-                                 wraplength=500)
+                                      "\n\nIf you wish to repeat this process, click on 'Restart'.\n",
+                                 wraplength=700, font=descriptions_font)
     # Place the goodbye label to the grid
     goodbye_label.grid(row=9, column=1)
 
@@ -375,7 +377,7 @@ def classification_page():
             # Join the numbers of unfilled classes into one string
             incomplete_classes = ",".join(str(x) for x in unfilled)
             # Show the unfilled classes in a label
-            error_label.configure(text=f"Clusters {incomplete_classes} have no names. Please add them.")
+            error_label.configure(text=f"Clusters {incomplete_classes} have no names. Please add them.", font=descriptions_font)
         # If all classes have been fulfilled
         else:
             # Create a list to store the images
@@ -435,7 +437,7 @@ def classification_page():
                 classification_results_frame.columnconfigure(i, weight=1)
 
             # Create the column description
-            column_predicted_class_label = ctk.CTkLabel(classification_results_frame, text="Predicted cluster")
+            column_predicted_class_label = ctk.CTkLabel(classification_results_frame, text="Predicted cluster", font=descriptions_font)
             # Place the column descriptions
             column_predicted_class_label.grid(row=0, column=2)
 
@@ -454,7 +456,7 @@ def classification_page():
                 # Get the name the user gave to this cluster
                 predicted_class_name = class_pairs[predicted_class_code]
                 # Show that cluster user-inputted name through label widget
-                predicted_class_label = ctk.CTkLabel(classification_results_frame, text=predicted_class_name)
+                predicted_class_label = ctk.CTkLabel(classification_results_frame, text=predicted_class_name, font=descriptions_font)
                 # Place the widget
                 predicted_class_label.grid(row=1 + i, column=2)
 
@@ -517,7 +519,7 @@ def classification_page():
     error_label = ctk.CTkLabel(classification_frame,
                                                text="")
     # Place the slider to the number of clusters frame
-    error_label.grid(row=9, column=2)
+    error_label.grid(row=9, column=0, columnspan=3)
 
 # Define the C guide page
 def C_guide():
@@ -549,9 +551,11 @@ def C_guide():
 
     # Create guide label
     C_guide_label = ctk.CTkLabel(C_guide_frame,
-                                 text="Now you have clusters. In next step, try to identify what is the characteristic of all images in each cluster and let the machine learn your names and predict which cluster new images would fall into. Did the machine get it right?"
-                                      "\nWhen done, click on 'Next'.",
-                                 wraplength=500)
+                                 text="\n\n\n\n\n\n\n\n\n\nNow you have clusters created.\n\nIn next step, try to identify "
+                                      "what is the characteristic of all images in each cluster and let the machine learn "
+                                      "your names and predict which cluster new images would fall into. Did the machine get it right?"
+                                      "\n\nWhen done, click on 'Next'.\n",
+                                 wraplength=700, font = descriptions_font)
     # Place the guide label to the grid
     C_guide_label.grid(row=9, column=1)
 
@@ -680,8 +684,6 @@ def clustering_page():
         # Get the clusters
         Z = kmeans.predict(data)
 
-        print(Z)
-
         # Define a list to store the filenames of generated clusters
         filenames_of_clusters = []
 
@@ -693,9 +695,6 @@ def clustering_page():
             num = row.shape[0]
             # Number of rows in the figure of the cluster
             r = np.floor(num / 3)
-
-            print("cluster " + str(i))
-            print(str(num) + " elements")
 
             # Make number of rows an integer for matplotlib to be able to generate the plots
             r = int(r)
@@ -841,9 +840,12 @@ def B_guide():
 
     # Create guide label
     B_guide_label = ctk.CTkLabel(B_guide_frame,
-                                 text="Now that you have your dataset, let's use these mixed pictures to let the machine separate them into clusters of similar images."
-                                      "\nYou can choose how many clusters do you want the machine to create and observe how the content of clusters change with different cluster numbers.\nFeel free to recluster to explore more.\nWhen done, click on 'Next'.",
-                                 wraplength=500)
+                                 text="\n\n\n\n\n\n\n\n\n\nNow that you have your dataset, let's use these mixed pictures "
+                                      "to let the machine separate them into clusters of similar images.\n\n"
+                                      "You can choose how many clusters you want the machine to create and observe how "
+                                      "the content of clusters change with different number of clusters.\n\n"
+                                      "Feel free to recluster to see how grouping change.\n\nWhen done, click on 'Next'.\n",
+                                 wraplength=700, font=descriptions_font)
     # Place the guide label to the grid
     B_guide_label.grid(row=9, column=1)
 
@@ -953,8 +955,6 @@ def choose_percentage_page():
 
         # Create an estimator object
         estimator = KNeighborsRegressor(n_neighbors=2)
-        #estimator = DecisionTreeRegressor(max_depth=10, random_state=0)
-        #estimator = ExtraTreesRegressor(n_estimators=10, max_features=32, random_state=0)
 
         # Train the estimator so that it learns a model of the data
         estimator.fit(X_train, y_train)
@@ -990,9 +990,6 @@ def choose_percentage_page():
         # Predict the lower part of the faces based on the upper part
         y_test_predict = estimator.predict(X_test)
 
-        print(X_train.shape)
-        print(y_train.shape)
-
         # How many faces to display
         n_faces = 6
 
@@ -1001,18 +998,16 @@ def choose_percentage_page():
 
         n_cols = 2
 
-        # Check the performance of the estimator on testing faces:
-
         plt.figure(figsize=(2.0 * n_cols, 2.26 * n_faces))
-        plt.suptitle("Face completion with knn regression: \ntesting set", size=16)
 
         for i in range(n_faces):
             true_face = np.hstack((X_test[i], y_test[i]))
 
+            # Only show the title "Original faces" at the top of the column, not above each image
             if i:
                 sub = plt.subplot(n_faces, n_cols, i * n_cols + 1)
             else:
-                sub = plt.subplot(n_faces, n_cols, i * n_cols + 1, title="true faces")
+                sub = plt.subplot(n_faces, n_cols, i * n_cols + 1, title="Original faces")
 
             sub.axis("off")
             sub.imshow(
@@ -1020,7 +1015,11 @@ def choose_percentage_page():
             )
 
             completed_face = np.hstack((X_test[i], y_test_predict[i]))
-            sub = plt.subplot(n_faces, n_cols, i * n_cols + 2)
+            # Only show the title "Generated faces" at the top of the column, not above each image
+            if i:
+                sub = plt.subplot(n_faces, n_cols, i * n_cols + 2)
+            else:
+                sub = plt.subplot(n_faces, n_cols, i * n_cols + 2,  title="Generated faces")
 
             sub.axis("off")
             sub.imshow(
@@ -1028,6 +1027,8 @@ def choose_percentage_page():
                 cmap=plt.cm.gray,
                 interpolation="nearest",
             )
+        # Remove redundant space in the figure
+        plt.tight_layout()
         # Save the result as image to display in GUI
         plt.savefig('face_completions_result.png')
 
@@ -1038,17 +1039,29 @@ def choose_percentage_page():
         # Create an image widget to display in GUI
         image_label = ctk.CTkLabel(choose_percentage_frame, image=image, text="")
         # Place the image in the choose percentage and display results section
-        image_label.grid(row=4, column=0)
+        image_label.grid(row=1, column=0)
 
         # Destroy the previously shown today dataset
         todays_dataset_frame.destroy()
         # Show the image from today's dataset which were used in the current machine learning
         display_todays_dataset(today_input_samples,input_dir_today)
 
+        # Create a label for the renaissance dataset
+        dataset_label = ctk.CTkLabel(todays_dataset_frame, text="Today images used in training",
+                                     font=descriptions_font)
+        # Place that image to the next cell
+        dataset_label.grid(row=0, column=0, columnspan=5)
+
         # Destroy the previously shown renaissance dataset
         renaissance_dataset_frame.destroy()
         # Show the image from renaissance dataset which were used in the current machine learning
         display_renaissance_dataset(renaissance_input_samples, input_dir_renaissance)
+
+        # Create a label for the renaissance dataset
+        dataset_label = ctk.CTkLabel(renaissance_dataset_frame, text="Renaissance images used in training",
+                                     font=descriptions_font)
+        # Place that image to the next cell
+        dataset_label.grid(row=0, column=0, columnspan=5)
 
         # Define a button which goes to the next page
         go_to_clustering_button = ctk.CTkButton(choose_percentage_frame,
@@ -1056,6 +1069,9 @@ def choose_percentage_page():
                                    command=B_guide)
         # Place the button in the choose percentage and display results section
         go_to_clustering_button.grid(row=5, column=0)
+
+        # If one mix already happened, change the button's text to "Remix"
+        mix_button.configure(text="Remix")
 
     # Define a button which starts the face completion process
     mix_button = ctk.CTkButton(choose_percentage_frame,
@@ -1100,8 +1116,14 @@ def A_guide():
 
     # Create guide label
     A_guide_label = ctk.CTkLabel(A_guide_frame,
-                                 text="In the beginning, let machine learning generate lower part of contemporary faces.\nThese lower halves will be a blend of faces from today's people and Reinassence people.\nYou can choose how much the second half will have of today's and Renaissance features by changing the amount of pictures from these two periods in a training dataset for the machine.\nUse slider to change the mix and feel free to remix again to observe patterns!\nWhen done, click on 'Next'.",
-                                 wraplength=500)
+                                 text="\n\n\n\n\n\n\n\n\n\nFirst, let the machine complete missing lower halves of contemporary faces.\n\n"
+                                      "These lower halves will be a blend of faces from today's people and Reinassence "
+                                      "people.\n\nYou can choose how much the second half will have of today's and "
+                                      "Renaissance features by changing the amount of pictures from these two periods "
+                                      "in a training dataset that the machine learns on. More renaissance faces means more "
+                                      "renaissance features.\n\nUse slider to change the "
+                                      "mix and feel free to remix again to observe patterns!\n\nWhen done, click on 'Next'.\n",
+                                 wraplength=700, font=descriptions_font)
     # Place the guide label to the grid
     A_guide_label.grid(row=9, column=1)
 
@@ -1142,7 +1164,9 @@ def welcome_page():
     ABC_label.grid(row=0, column=1)
 
     # Create label with the welcome text
-    welcome_label = ctk.CTkLabel(welcome_page_frame, text="Welcome to ABCs of Machine Learning \n Play with some methods of machine learning and explore how it works. \n", wraplength=500)
+    welcome_label = ctk.CTkLabel(welcome_page_frame, text="\n\n\n\n\n\n\n\n\n\nWelcome to ABCs of Machine Learning!\n\nPlay with some "
+                                                          "methods of machine learning to explore how it works.\n",
+                                 wraplength=600, font=descriptions_font)
     # Place it to the grid
     welcome_label.grid(row=9, column=1)
 
