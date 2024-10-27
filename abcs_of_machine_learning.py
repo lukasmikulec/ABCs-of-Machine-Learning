@@ -551,7 +551,7 @@ def C_guide():
 
     # Create guide label
     C_guide_label = ctk.CTkLabel(C_guide_frame,
-                                 text="\n\n\n\n\n\n\n\n\n\nNow you have clusters created.\n\nIn next step, try to identify "
+                                 text="\n\n\n\n\n\n\n\n\n\nNow you have clusters created.\n\nIn the next step, try to identify "
                                       "what is the characteristic of all images in each cluster and let the machine learn "
                                       "your names and predict which cluster new images would fall into. Did the machine get it right?"
                                       "\n\nWhen done, click on 'Next'.\n",
@@ -844,7 +844,8 @@ def B_guide():
                                       "to let the machine separate them into clusters of similar images.\n\n"
                                       "You can choose how many clusters you want the machine to create and observe how "
                                       "the content of clusters change with different number of clusters.\n\n"
-                                      "Feel free to recluster to see how grouping change.\n\nWhen done, click on 'Next'.\n",
+                                      "Feel free to recluster to see how grouping changes based on number of clusters."
+                                      "\n\nWhen done, click on 'Next'.\n",
                                  wraplength=700, font=descriptions_font)
     # Place the guide label to the grid
     B_guide_label.grid(row=9, column=1)
